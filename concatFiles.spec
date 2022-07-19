@@ -8,7 +8,7 @@ a = Analysis(
     ['concatFiles.py'],
     pathex=[],
     binaries=[],
-    datas=[('Key.csv', '.')],
+    datas=[],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
