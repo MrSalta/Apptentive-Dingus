@@ -6,17 +6,23 @@ import pandas as pd
 import glob
 from pathlib import Path
 import sys
+import tkinter as tk
+from tkinter import filedialog as fd
+from tkinter import messagebox as mb
 
 # Setting working directory
-script_dir = Path(__file__).resolve().parent
-source_path = (script_dir / '../Put Reports Here').resolve()
-key_path = (script_dir / '../').resolve()
+# script_dir = Path(__file__).resolve().parent
+# source_path = (script_dir / './Put Reports Here').resolve()
 
 # Setting output
+root = tk.Tk()
+# dict_key_file = (script_dir/'Key.csv')
 
-dict_key_file = (key_path/'Key.csv')
+# Dialog to choose key file
+dict_key_file = fd.askopenfilename(title='Choose Key File')
 
-
+f = fd.askopenfilenames(title='Choose Report Files')
+root.destroy()
 # Breakpoint
 try:
     dict_from_csv = pd.read_csv(
@@ -34,12 +40,12 @@ dict_from_csv = {k.replace(u'\xa0', ' '): v.replace(u'\xa0', ' ')
                  for k, v in dict_from_csv.items()}
 print("Dictionary loaded successfully from Key file.")
 
-apptentive_exports = source_path.glob(
-    '*.csv')
-print("Loading files...")
+# apptentive_exports = source_path.glob(
+# '*.csv')
+# print("Loading files...")
 data = []
 print("Files Loaded!")
-for csv in apptentive_exports:
+for csv in f:
     frame = pd.read_csv(csv)
     frame['appname'] = os.path.basename(csv).split("(")[0]
     data.append(frame)
@@ -56,5 +62,5 @@ df['6'] = df['6'].replace(r'\.(?!\s|$)', '', regex=True)
 df['6'] = df['6'].replace(r'\,(?!\w)|(?<!\w)\,', '', regex=True)
 df['6'] = df['6'].str.split(',')
 df = df.explode('6')
-df.to_csv("../Final File Here/GenieNewOutput.csv")
+df.to_csv("./Final File Here/GenieNewOutput.csv")
 print("Load and combine completed. The new file is in the \"Final File Here\" folder")
